@@ -9,6 +9,7 @@ class Player : public GameObject
     Ball* myBall_;      //自玉を表すポインタ
     float direction_;   //玉を打つ方向（Y回転のラジアン角）
     float power_;       //力の強さ
+    int hModel_;        //モデル番号
 public:
     //コンストラクタ
     Player(GameObject* parent);
