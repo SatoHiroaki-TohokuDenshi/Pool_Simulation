@@ -41,3 +41,21 @@ public:
 	}
 };
 
+inline XMFLOAT3 operator +=(XMFLOAT3& p, const XMVECTOR& v) {
+	XMVECTOR pv = XMLoadFloat3(&p);
+	pv += v;
+	XMStoreFloat3(&p, pv);
+}
+
+inline XMFLOAT3 operator +(const XMFLOAT3& v1, const XMVECTOR& v2) {
+	XMVECTOR pv = XMLoadFloat3(&v1);
+	pv += v2;
+	XMFLOAT3 out;
+	XMStoreFloat3(&out, pv);
+	return out;
+}
+
+inline float Length(XMVECTOR v) {
+	XMVECTOR lenVec = XMVector3Length(v);
+	return XMVectorGetX(lenVec);
+}
