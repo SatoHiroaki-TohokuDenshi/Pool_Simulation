@@ -29,6 +29,20 @@ public:
     //ボールの番号を指定する
     void SetNumber(int no);
 
+    //移動速度の計算
+    void CalcVeloCity();
+
+    //壁の反射を計算する
+    void CalcReflectWall();
+
+    //反射するベクトルを計算する
+    //引数　：法線ベクトル
+    //戻り値：反射したベクトル
+    XMVECTOR CalcReflection(XMVECTOR Nomal);
+
     //ボールに力を加える
     void AddForce(XMVECTOR f);
+
+    //次のフレームにいる座標を返す
+    XMFLOAT3 GetNextPosition() { return GetPosition() + velocity_; };
 };
