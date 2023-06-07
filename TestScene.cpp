@@ -1,5 +1,6 @@
 #include "TestScene.h"
 #include "Ball.h"
+#include "Player.h"
 #include "Engine/Camera.h"
 
 //コンストラクタ
@@ -18,6 +19,10 @@ void TestScene::Initialize()
 		b->SetNumber(i);
 		b->SetPosition((float)(i - 4) * 1.4f, 0, (float)(i - 4) * 1.4f);
 	}
+	Player* p = Instantiate<Player>(this);
+	Ball* b = Instantiate<Ball>(this);
+	b->SetNumber(0);		//白玉
+	p->SetMyBall(b);
 }
 
 //更新

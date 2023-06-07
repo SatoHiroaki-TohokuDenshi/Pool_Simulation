@@ -1,7 +1,7 @@
 #pragma once
 #include "Engine/GameObject.h"
 
-//◆◆◆を管理するクラス
+//Ballを管理するクラス
 class Ball : public GameObject
 {
     int hModel_;    //モデル番号
@@ -28,4 +28,7 @@ public:
 
     //ボールの番号を指定する
     void SetNumber(int no);
+
+    //ボールに力を加える
+    void AddForce(XMVECTOR f);
 };
