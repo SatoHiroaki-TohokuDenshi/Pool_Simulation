@@ -10,6 +10,13 @@ class Player : public GameObject
     float direction_;   //玉を打つ方向（Y回転のラジアン角）
     float power_;       //力の強さ
     int hModel_;        //モデル番号
+
+    bool isPull_;
+    XMFLOAT3 pullBegin_;
+    XMFLOAT3 pullEnd_;
+
+    bool isCharge_;
+    bool isCountUp;
 public:
     //コンストラクタ
     Player(GameObject* parent);
