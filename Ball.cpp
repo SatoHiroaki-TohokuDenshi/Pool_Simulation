@@ -27,12 +27,31 @@ void Ball::Update()
     CalcVeloCity();
 
     //ボール同士の反射
-    std::list<Ball*> all = FindGameObjects<Ball>();
+    std::list<Ball*> all = GetParent()->FindGameObjects<Ball>();
     for (std::list<Ball*>::iterator itr = all.begin(); itr != all.end(); itr++) {
         if (*itr == this) continue;
         XMFLOAT3 next = transform_.position_ + velocity_;   //次のフレームの自分
         XMFLOAT3 other = (*itr)->GetNextPosition();         //次のフレームの相手
-        if (/*nextとotherが重なったら*/true) {
+        //2個の玉の距離が玉の直径より短い
+        if (Length(next - other) < 1.0f * 2.0f) {
+            //相手に力を加える
+            XMVECTOR n = other - next;
+            n = XMVector3Normalize(n);      //nの長さを1にする
+            XMVECTOR powDot = XMVector3Dot(velocity_, n);
+            float pow = XMVectorGetX(powDot);   //押す力の大きさ
+            XMVECTOR push = n * pow;
+            velocity_ -= push;
+            (*itr)->AddForce(push);
+
+            //相手から力を受け取る
+            n = next - other;
+            n = XMVector3Normalize(n);      //nの長さを1にする
+            powDot = XMVector3Dot(velocity_, n);
+            pow = XMVectorGetX(powDot);     //押す力の大きさ
+            push = n * pow;
+            (*itr)->AddForce(-push);        //相手から引く
+            this->AddForce(push);           //自分に加える
+
 
         }
     }
@@ -94,18 +113,22 @@ void Ball::CalcReflectWall() {
     XMFLOAT3 nextPos = transform_.position_ + velocity_;
     if (nextPos.x >= 30.0f) {
         n = XMVectorSet(-1,0,0,0);
+        n *= -1;
         velocity_ = CalcReflection(n);
     }
     if (nextPos.x <= -30.0f) {
         n = XMVectorSet( 1, 0, 0, 0);
+        n *= -1;
         velocity_ = CalcReflection(n);
     }
     if (nextPos.z >= 20.0f) {
         n = XMVectorSet( 0, 0, -1, 0);
+        n *= -1;
         velocity_ = CalcReflection(n);
     }
     if (nextPos.z <= -20.0f) {
         n = XMVectorSet( 0, 0,  1, 0);
+        n *= -1;
         velocity_ = CalcReflection(n);
     }
 }
@@ -114,7 +137,6 @@ void Ball::CalcReflectWall() {
 //引数　：法線ベクトル
 //戻り値：反射したベクトル
 XMVECTOR Ball::CalcReflection(XMVECTOR Nomal) {
-    Nomal = Nomal * -1;     //逆向きにする　＝　壁に向かう法線
     XMVECTOR ipvec = XMVector3Dot(velocity_, Nomal);
     float ip = XMVectorGetX(ipvec);         //壁を押す力の大きさ
     XMVECTOR push = Nomal * ip;             //壁を押すベクトル

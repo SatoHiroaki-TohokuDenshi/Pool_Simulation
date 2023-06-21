@@ -45,4 +45,7 @@ public:
 
     //次のフレームにいる座標を返す
     XMFLOAT3 GetNextPosition() { return GetPosition() + velocity_; };
+
+    //移動量のゲッター関数
+    XMVECTOR GetVelocity() { return velocity_; };
 };
