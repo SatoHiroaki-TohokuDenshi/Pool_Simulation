@@ -1,4 +1,5 @@
 #pragma once
+#include "Gauge.h"
 #include "Engine/GameObject.h"
 
 class Ball;
@@ -15,6 +16,9 @@ class Player : public GameObject
     XMFLOAT3 pullBegin_;
     XMFLOAT3 pullEnd_;
 
+    Gauge* pGauge;
+    float chargeMax_;
+    float chargeLv_;
     bool isCharge_;
     bool isCountUp;
 public:

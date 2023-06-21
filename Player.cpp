@@ -7,7 +7,7 @@
 Player::Player(GameObject* parent)
     :GameObject(parent, "Player"), myBall_(nullptr), direction_(0.0f), power_(0.1f)
      ,hModel_(-1), isPull_(false), pullBegin_(0.0f, 0.0f, 0.0f), pullEnd_(0.0f, 0.0f, 0.0)
-     ,isCharge_(false), isCountUp(true)
+     ,chargeMax_(1.0f), chargeLv_(0.0f), pGauge(nullptr), isCharge_(false), isCountUp(true)
 {
 }
 
@@ -25,6 +25,9 @@ void Player::Initialize()
     //モデルデータのロード
     hModel_ = Model::Load("no0.fbx");
     assert(hModel_ >= 0);
+
+    pGauge = Instantiate<Gauge>(this);
+    pGauge->SetValue(chargeMax_, chargeLv_);
 }
 
 //更新
@@ -99,22 +102,29 @@ void Player::Update()
         else {
             if (Input::IsKeyUp(DIK_RETURN)) {
                 isCharge_ = false;
-                XMVECTOR base = XMVectorSet(0, 0, power_, 0);   //移動量のスカラー
+                if (abs(chargeMax_ - chargeLv_) == 0.1) {     //スーパーショット
+                    chargeLv_ = 2.0f;
+                }
+                XMVECTOR base = XMVectorSet(0, 0, power_ + chargeLv_, 0);   //移動量のスカラー
                 XMMATRIX yrot = XMMatrixRotationY(direction_);  //回転行列
                 XMVECTOR v = XMVector3Transform(base, yrot);    //スカラー値に方向をつける
                 myBall_->AddForce(v);
-                power_ = 0.1f;
+                chargeLv_ = 0.0f;
             }
             else {
-                if (power_ <= 0.1f)
+                if (chargeLv_ < -0.1f)
                     isCountUp = true;
-                else if (power_ >= 1.0f)
+                else if (chargeLv_ >= chargeMax_)
                     isCountUp = false;
 
-                if (isCountUp)
-                    power_ += 0.1f;
-                else
-                    power_ -= 0.1f;
+                if (isCountUp) {
+                    chargeLv_ += 0.01f;
+                    pGauge->SetValue(chargeMax_, chargeLv_);
+                }
+                else {
+                    chargeLv_ -= 0.01f;
+                    pGauge->SetValue(chargeMax_, chargeLv_);
+                }
             }
         }
     }
