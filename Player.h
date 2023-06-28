@@ -12,15 +12,17 @@ class Player : public GameObject
     float power_;       //力の強さ
     int hModel_;        //モデル番号
 
-    bool isPull_;
-    XMFLOAT3 pullBegin_;
-    XMFLOAT3 pullEnd_;
+    //モンスト風
+    bool isPull_;       //引いているかどうか
+    XMFLOAT3 pullBegin_;//開始地点
+    XMFLOAT3 pullEnd_;  //終了地点
 
-    Gauge* pGauge;
-    float chargeMax_;
-    float chargeLv_;
-    bool isCharge_;
-    bool isCountUp;
+    //ゴルフ風
+    Gauge* pGauge;      //チャージバー
+    float chargeMax_;   //最大値
+    float chargeLv_;    //現在値
+    bool isCharge_;     //チャージしているか
+    bool isCountUp;     //チャージが増大しているか
 public:
     //コンストラクタ
     Player(GameObject* parent);

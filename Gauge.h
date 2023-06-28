@@ -7,9 +7,9 @@ class Gauge : public GameObject
     int hPictGauge_;    //バーの中身
     int hPictFrame_;    //バーの外枠
 
-    float maxCharge_;
-    float nowCharge_;
-    float aniCharge_;
+    float maxCharge_;   //最大値
+    float nowCharge_;   //現在の値
+    float aniCharge_;   //アニメーション用
 public:
     //コンストラクタ
     Gauge(GameObject* parent);
