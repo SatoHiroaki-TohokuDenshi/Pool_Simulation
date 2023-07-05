@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Ball.h"
+#include "Ready.h"
 #include "Engine/Input.h"
 #include "Engine/Model.h"
 
@@ -39,21 +40,26 @@ void Player::Initialize()
 //更新
 void Player::Update()
 {
+    Ready* pReady = (Ready*)FindObject("Ready");
+    if (pReady != nullptr && pReady->Finished())
+        return;
     //通常の入力
-    //if (!isCharge_) {
-    //    if (Input::IsKey(DIK_A)) {
-    //        direction_ -= 0.03f;
-    //    }
-    //    if (Input::IsKey(DIK_D)) {
-    //        direction_ += 0.03f;
-    //    }
-    //}
-    if (Input::IsKeyDown(DIK_SPACE)) {
-        //玉を発射する
-        XMVECTOR base = XMVectorSet(0, 0, power_, 0);   //移動量のスカラー
-        XMMATRIX yrot = XMMatrixRotationY(direction_);  //回転行列
-        XMVECTOR v = XMVector3Transform(base, yrot);    //スカラー値に方向をつける
-        myBall_->AddForce(v);
+    {
+        //if (!isCharge_) {
+        //    if (Input::IsKey(DIK_A)) {
+        //        direction_ -= 0.03f;
+        //    }
+        //    if (Input::IsKey(DIK_D)) {
+        //        direction_ += 0.03f;
+        //    }
+        //}
+        if (Input::IsKeyDown(DIK_SPACE)) {
+            //玉を発射する
+            XMVECTOR base = XMVectorSet(0, 0, power_, 0);   //移動量のスカラー
+            XMMATRIX yrot = XMMatrixRotationY(direction_);  //回転行列
+            XMVECTOR v = XMVector3Transform(base, yrot);    //スカラー値に方向をつける
+            myBall_->AddForce(v);
+        }
     }
 
     //任意の操作方法

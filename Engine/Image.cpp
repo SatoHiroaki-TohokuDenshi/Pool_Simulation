@@ -191,5 +191,13 @@ namespace Image
 		}
 		return _datas[handle]->transform.GetWorldMatrix();
 	}
+	int GetWidth(int handle)
+	{
+		return _datas[handle]->pSprite->GetTextureSize().x;
+	}
+	int GetHeight(int handle)
+	{
+		return _datas[handle]->pSprite->GetTextureSize().y;
+	}
 }
 

@@ -26,8 +26,8 @@ void Gauge::Initialize()
     hPictFrame_ = Image::Load("LifeGauge_Frame.png");
     assert(hPictFrame_ >= 0);
 
-    imgHeight_ = 64.0f;
-    imgWidth_ = 512.0f;
+    imgHeight_ = (float)Image::GetHeight(hPictGauge_);
+    imgWidth_ = (float)Image::GetWidth(hPictGauge_);
 }
 
 //XV
