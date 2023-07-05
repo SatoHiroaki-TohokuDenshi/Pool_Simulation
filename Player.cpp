@@ -3,11 +3,15 @@
 #include "Engine/Input.h"
 #include "Engine/Model.h"
 
+namespace {
+    const float GAUGE_TIME = 0.5f;
+}
+
 //コンストラクタ
 Player::Player(GameObject* parent)
     :GameObject(parent, "Player"), myBall_(nullptr), direction_(0.0f), power_(0.1f)
      ,hModel_(-1), isPull_(false), pullBegin_(0.0f, 0.0f, 0.0f), pullEnd_(0.0f, 0.0f, 0.0)
-     ,state_(S_ROTATE), chargeMax_(1.0f), chargeLv_(0.0f), pGauge(nullptr), isCharge_(false), isCountUp(true)
+     ,state_(S_ROTATE), chargeLv_(0.0f), pGauge(nullptr), isCountUp_(true), isOperate_(true)
 {
 }
 
@@ -27,7 +31,9 @@ void Player::Initialize()
     assert(hModel_ >= 0);
 
     pGauge = Instantiate<Gauge>(this);
-    pGauge->SetValue(chargeMax_, chargeLv_);
+    pGauge->DoDraw(false);
+    pGauge->SetPosition(-0.95f, 0.85f);
+    pGauge->SetValue(chargeLv_);
 }
 
 //更新
@@ -42,13 +48,13 @@ void Player::Update()
     //        direction_ += 0.03f;
     //    }
     //}
-    //if (Input::IsKeyDown(DIK_SPACE)) {
-    //    //玉を発射する
-    //    XMVECTOR base = XMVectorSet(0, 0, power_, 0);   //移動量のスカラー
-    //    XMMATRIX yrot = XMMatrixRotationY(direction_);  //回転行列
-    //    XMVECTOR v = XMVector3Transform(base, yrot);    //スカラー値に方向をつける
-    //    myBall_->AddForce(v);
-    //}
+    if (Input::IsKeyDown(DIK_SPACE)) {
+        //玉を発射する
+        XMVECTOR base = XMVectorSet(0, 0, power_, 0);   //移動量のスカラー
+        XMMATRIX yrot = XMMatrixRotationY(direction_);  //回転行列
+        XMVECTOR v = XMVector3Transform(base, yrot);    //スカラー値に方向をつける
+        myBall_->AddForce(v);
+    }
 
     //任意の操作方法
     //モンスト風
@@ -97,31 +103,42 @@ void Player::Update()
     case S_ROTATE:
         if (Input::IsKey(DIK_A)) direction_ -= 0.03f;
         if (Input::IsKey(DIK_D)) direction_ += 0.03f;
-        if (Input::IsKeyDown(DIK_RETURN)) state_ = S_POWER;
+
+        if (Input::IsKeyDown(DIK_RETURN)) {
+            isOperate_ = false;
+            pGauge->DoDraw(true);
+            pGauge->SetValue(0.0f);
+            state_ = S_POWER;
+        }
         break;
     case S_POWER:
         //角度決定に戻る
-        if (Input::IsKeyDown(DIK_ESCAPE)) state_ = S_ROTATE;
-        if (chargeLv_ < -0.1f) isCountUp = true;
-        else if (chargeLv_ >= chargeMax_) isCountUp = false;
-
-        if (isCountUp) {
-            chargeLv_ += 0.01f;
-            pGauge->SetValue(chargeMax_, chargeLv_);
+        if (Input::IsKeyDown(DIK_ESCAPE)) {
+            isOperate_ = true;
+            pGauge->DoDraw(false);
+            state_ = S_ROTATE;
+        }
+        if (isCountUp_) {
+            chargeLv_ = 0.01f;
+            pGauge->AddValue(pGauge->MAX / GAUGE_TIME / 60.0f);
+            if (pGauge->GetValue() >= pGauge->MAX) isCountUp_ = false;
         }
         else {
-            chargeLv_ -= 0.01f;
-            pGauge->SetValue(chargeMax_, chargeLv_);
+            chargeLv_ = -0.01f;
+            pGauge->AddValue(-(pGauge->MAX / GAUGE_TIME / 60.0f));
+            if (pGauge->GetValue() <= pGauge->MIN) isCountUp_ = true;
         }
 
         //打ち出す
         if (Input::IsKeyDown(DIK_RETURN)) {
-            if (abs(chargeMax_ - chargeLv_) == 0.1) chargeLv_ = 2.0f;   //スーパーショット
+            chargeLv_ = pGauge->GetValue();
+            if (abs(pGauge->MAX - pGauge->GetValue()) == 0.1) chargeLv_ = 2.0f;   //スーパーショット
             XMVECTOR base = XMVectorSet(0, 0, power_ + chargeLv_, 0);   //移動量のスカラー
             XMMATRIX yrot = XMMatrixRotationY(direction_);  //回転行列
             XMVECTOR v = XMVector3Transform(base, yrot);    //スカラー値に方向をつける
             myBall_->AddForce(v);
             chargeLv_ = 0.0f;
+            pGauge->DoDraw(false);
             state_ = S_MOVE;
         }
         break;
@@ -134,7 +151,10 @@ void Player::Update()
                 break;
             }
         }
-        if (flag) state_ = S_ROTATE;
+        if (flag) {
+            isOperate_ = true;
+            state_ = S_ROTATE;
+        }
         break;
     }
 }
@@ -149,8 +169,10 @@ void Player::Draw()
     XMVECTOR v = XMVector3Transform(base, yrot);    //スカラー値に方向をつける
     transform_.position_ = myBall_->GetPosition() + v;
 
-    Model::SetTransform(hModel_, transform_);
-    Model::Draw(hModel_);
+    if (isOperate_) {
+        Model::SetTransform(hModel_, transform_);
+        Model::Draw(hModel_);
+    }
 }
 
 //開放

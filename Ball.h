@@ -49,5 +49,5 @@ public:
     //ˆÚ“®—Ê‚ÌƒQƒbƒ^[ŠÖ”
     XMVECTOR GetVelocity() { return velocity_; };
 
-    bool IsMoving() { return (Length(velocity_) == 0.0f); };
+    bool IsMoving() { return (Length(velocity_) != 0.0f); };
 };

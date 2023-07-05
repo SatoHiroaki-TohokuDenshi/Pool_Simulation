@@ -27,11 +27,10 @@ class Player : public GameObject
 
     //ゴルフ風
     Gauge* pGauge;      //チャージバー
-    float chargeMax_;   //最大値
     float chargeLv_;    //現在値
     int state_;
-    bool isCharge_;     //チャージしているか
-    bool isCountUp;     //チャージが増大しているか
+    bool isCountUp_;     //チャージが増大しているか
+    bool isOperate_;     //操作できるか
 public:
     //コンストラクタ
     Player(GameObject* parent);

@@ -4,8 +4,11 @@
 //コンストラクタ
 Gauge::Gauge(GameObject* parent)
     :GameObject(parent, "Gauge"), hPictGauge_(-1), hPictFrame_(-1),
-    maxCharge_(0), nowCharge_(0), aniCharge_(0)
+    nowCharge_(0), aniCharge_(0), isDraw(false),
+    imgHeight_(0.0f),imgWidth_(0.0f)
 {
+    transform_.position_.x = -0.95f;
+    transform_.position_.y = 0.85f;
 }
 
 //デストラクタ
@@ -17,34 +20,37 @@ Gauge::~Gauge()
 void Gauge::Initialize()
 {
     //画像データのロード
-    hPictGauge_ = Image::Load("LifeGauge.png");
+    hPictGauge_ = Image::Load("LifeGauge_v2.png");
     assert(hPictGauge_ >= 0);
     //画像データのロード
     hPictFrame_ = Image::Load("LifeGauge_Frame.png");
     assert(hPictFrame_ >= 0);
 
-    transform_.position_.x = -0.95f;
-    transform_.position_.y = 0.85f;
+    imgHeight_ = 64.0f;
+    imgWidth_ = 512.0f;
 }
 
 //更新
-void Gauge::Update()
-{
+void Gauge::Update() {
 }
 
 //描画
 void Gauge::Draw()
 {
-    Transform transGauge = transform_;
-    transGauge.scale_.x = (float)aniCharge_ / (float)maxCharge_;
+    if (isDraw) {
+        //Transform transGauge = transform_;
+        //transGauge.scale_.x = (float)aniCharge_ / (float)maxCharge_;
 
-    Transform transFrame = transform_;
-    transFrame.scale_.x = 0.95f;
+        int left = (int)(imgWidth_ / 2 - (imgWidth_ / 2) * nowCharge_);
+        int width = (int)(imgWidth_ * nowCharge_);
+        Image::SetRect(hPictGauge_, left, 0, width, (int)imgHeight_);
 
-    Image::SetTransform(hPictGauge_, transGauge);
-    Image::Draw(hPictGauge_);
-    Image::SetTransform(hPictFrame_, transFrame);
-    Image::Draw(hPictFrame_);
+        Image::SetTransform(hPictGauge_, transform_);
+        Image::Draw(hPictGauge_);
+
+        Image::SetTransform(hPictFrame_, transform_);
+        Image::Draw(hPictFrame_);
+    }
 }
 
 //開放
