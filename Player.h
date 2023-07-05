@@ -4,6 +4,14 @@
 
 class Ball;
 
+//ゴルフ風に使う状態遷移
+enum SHOT_STATE{
+    S_ROTATE = 0,
+    S_POWER,
+    S_MOVE,
+    S_MAX,
+};
+
 //Playerを管理するクラス
 class Player : public GameObject
 {
@@ -21,6 +29,7 @@ class Player : public GameObject
     Gauge* pGauge;      //チャージバー
     float chargeMax_;   //最大値
     float chargeLv_;    //現在値
+    int state_;
     bool isCharge_;     //チャージしているか
     bool isCountUp;     //チャージが増大しているか
 public:
