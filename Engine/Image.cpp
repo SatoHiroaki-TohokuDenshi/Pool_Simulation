@@ -199,5 +199,9 @@ namespace Image
 	{
 		return _datas[handle]->pSprite->GetTextureSize().y;
 	}
+	XMFLOAT3 GetSize(int handle)
+	{
+		return _datas[handle]->pSprite->GetTextureSize();
+	}
 }
 

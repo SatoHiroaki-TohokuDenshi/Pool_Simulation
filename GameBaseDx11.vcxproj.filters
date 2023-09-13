@@ -24,6 +24,12 @@
       <UniqueIdentifier>{47a6a3f5-8cfd-436b-8d58-beccd108f3f3}</UniqueIdentifier>
       <Extensions>hlsl</Extensions>
     </Filter>
+    <Filter Include="Simulator">
+      <UniqueIdentifier>{8972daf0-7b6b-482d-9053-823a7907fc64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="old">
+      <UniqueIdentifier>{35edeadf-ab3b-408b-9eee-98927367699f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\BoxCollider.cpp">
@@ -96,11 +102,27 @@
     <ClCompile Include="Engine\VFX.cpp">
       <Filter>01Engine\ResourceManager</Filter>
     </ClCompile>
-    <ClCompile Include="Ball.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Gauge.cpp" />
-    <ClCompile Include="Ready.cpp" />
     <ClCompile Include="EasingFunctions.cpp" />
+    <ClCompile Include="Ball.cpp">
+      <Filter>Simulator</Filter>
+    </ClCompile>
+    <ClCompile Include="Gauge.cpp">
+      <Filter>Simulator</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Simulator</Filter>
+    </ClCompile>
+    <ClCompile Include="Ready.cpp">
+      <Filter>Simulator</Filter>
+    </ClCompile>
+    <ClCompile Include="Button_old.cpp">
+      <Filter>old</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene_old.cpp">
+      <Filter>old</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="Button.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -173,11 +195,27 @@
     <ClInclude Include="Engine\VFX.h">
       <Filter>01Engine\ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="Ball.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Gauge.h" />
-    <ClInclude Include="Ready.h" />
     <ClInclude Include="EasingFunctions.h" />
+    <ClInclude Include="Ball.h">
+      <Filter>Simulator</Filter>
+    </ClInclude>
+    <ClInclude Include="Gauge.h">
+      <Filter>Simulator</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Simulator</Filter>
+    </ClInclude>
+    <ClInclude Include="Ready.h">
+      <Filter>Simulator</Filter>
+    </ClInclude>
+    <ClInclude Include="Button_old.h">
+      <Filter>old</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene_old.h">
+      <Filter>old</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="Button.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

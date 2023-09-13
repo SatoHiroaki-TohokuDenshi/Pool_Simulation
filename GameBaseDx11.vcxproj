@@ -134,6 +134,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Button_old.cpp" />
     <ClCompile Include="EasingFunctions.cpp" />
     <ClCompile Include="Engine\Audio.cpp" />
     <ClCompile Include="Engine\BillBoard.cpp" />
@@ -162,9 +164,13 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Ready.cpp" />
     <ClCompile Include="TestScene.cpp" />
+    <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="TitleScene_old.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ball.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="Button_old.h" />
     <ClInclude Include="EasingFunctions.h" />
     <ClInclude Include="Engine\Audio.h" />
     <ClInclude Include="Engine\BillBoard.h" />
@@ -193,6 +199,8 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Ready.h" />
     <ClInclude Include="TestScene.h" />
+    <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="TitleScene_old.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\BillBoard.hlsl">

@@ -23,10 +23,10 @@ namespace {
 		float param;	//必要な値
 	};
 	std::vector<Sequence> tbl = {	//実行するシークエンスのテーブル
-		{0.0f, A_SLIDEIN, 5.0f},	//0秒目：スライドイン
-		{3.0f, A_WAIT, 0.0f},		//3秒目：1秒待ってから
-		{4.0f, A_SLIDEOUT, -5.0f},	//4秒目：スライドアウト
-		{5.0f, A_END, 0.0f},		//5秒目：そして、消滅
+		{0.0f, A_SLIDEIN	,  5.0f},	//0秒目：スライドイン
+		{3.0f, A_WAIT		,  0.0f},	//3秒目：1秒待ってから
+		{4.0f, A_SLIDEOUT	, -5.0f},	//4秒目：スライドアウト
+		{5.0f, A_END		,  0.0f},	//5秒目：そして、消滅
 	};
 	ACT currentAction;	//今実行しているアクション
 	bool canMove;		//プレイヤーが移動できるか
